@@ -35,6 +35,7 @@ logger.addHandler(handler)
 
 
 def send_message(bot, message):
+    """"Функция отправки сообщений"""
     try:
         bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
         logging.info('Сообщение отправлено')
@@ -44,6 +45,7 @@ def send_message(bot, message):
 
 
 def get_api_answer(current_timestamp):
+    """"Функция запроса от API"""
     while True:
         timestamp = current_timestamp or int(time.time())
         params = {'from_date': timestamp}
@@ -57,6 +59,7 @@ def get_api_answer(current_timestamp):
 
 
 def check_response(response):
+    """"Функция проверки запроса"""
     if type(response) == dict and 'homeworks' in response:
         if type(response['homeworks']) == list:
             return response.get('homeworks')
@@ -70,6 +73,7 @@ def check_response(response):
 
 
 def parse_status(homework):
+    """"Парсинг статуса"""
     homework_name = homework.get('homework_name')
     homework_status = homework.get('status')
     verdict = HOMEWORK_STATUSES[homework_status]
@@ -81,14 +85,16 @@ def parse_status(homework):
 
 
 def check_tokens():
-    if (PRACTICUM_TOKEN is None or TELEGRAM_TOKEN is None or
-            TELEGRAM_CHAT_ID is None):
+    """"Функция проверки обязательных переменных окружения"""
+    if (PRACTICUM_TOKEN is None or TELEGRAM_TOKEN
+            is None or TELEGRAM_CHAT_ID is None):
         return False
     else:
         return True
 
 
 def main():
+    """"Основная функция"""
     if check_tokens() is False:
         logger.critical('Отсутствие обязательных переменных окружения во '
                         'время запуска бота')

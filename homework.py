@@ -43,7 +43,6 @@ def send_message(bot, message):
         logging.info('Сообщение отправлено')
     except SendMessageError:
         logging.error('Сообщение не отправлено')
-        time.sleep(RETRY_TIME)
 
 
 def get_api_answer(current_timestamp):
@@ -57,13 +56,13 @@ def get_api_answer(current_timestamp):
         else:
             logging.error('Нет ответа от API')
             raise NoApiResponse
-        time.sleep(RETRY_TIME)
 
 
 def check_response(response):
     """Функция проверки запроса."""
-    if type(response) == dict and 'homeworks' in response:
-        if type(response['homeworks']) == list:
+    if isinstance(response, dict) and 'homeworks' in response:
+        homeworks = response['homeworks']
+        if isinstance(homeworks, list):
             return response.get('homeworks')
         else:
             logging.error('Отсутствие ожидаемых ключей в ответе API')
@@ -121,6 +120,7 @@ def main():
                 message = f'Сбой в работе программы: {error}'
                 logger.critical('Сбой в работе программы')
                 send_message(bot, message)
+            finally:
                 time.sleep(RETRY_TIME)
 
 

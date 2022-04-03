@@ -1,8 +1,8 @@
 class SendMessageError(Exception):
-    def __str__(self):
+    def SendMessageError(self):
         return 'Ошибка отправки сообщения'
 
 
 class NoApiResponse(Exception):
-    def __str__(self):
+    def NoApiResponse(self):
         return 'Нет ответа от API'

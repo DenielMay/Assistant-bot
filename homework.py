@@ -7,6 +7,8 @@ import logging
 from dotenv import load_dotenv
 from http import HTTPStatus
 
+from exceptions import SendMessageError, NoApiResponse
+
 load_dotenv()
 
 secret_token = os.getenv('TOKEN')
@@ -39,8 +41,8 @@ def send_message(bot, message):
     try:
         bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=message)
         logging.info('Сообщение отправлено')
-    except Exception:
-        logging.exception('Сообщение не отправлено')
+    except SendMessageError:
+        logging.error('Сообщение не отправлено')
         time.sleep(RETRY_TIME)
 
 
@@ -54,7 +56,7 @@ def get_api_answer(current_timestamp):
             return response.json()
         else:
             logging.error('Нет ответа от API')
-            raise Exception('Нет ответа от API')
+            raise NoApiResponse
         time.sleep(RETRY_TIME)
 
 
@@ -117,6 +119,8 @@ def main():
 
             except Exception as error:
                 message = f'Сбой в работе программы: {error}'
+                logger.critical('Сбой в работе программы')
+                send_message(bot, message)
                 time.sleep(RETRY_TIME)
 
 

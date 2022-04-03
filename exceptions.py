@@ -1,8 +1,6 @@
 class SendMessageError(Exception):
-    def SendMessageError(self):
-        return 'Ошибка отправки сообщения'
+    """Ошибка отправки сообещния."""
 
 
 class NoApiResponse(Exception):
-    def NoApiResponse(self):
-        return 'Нет ответа от API'
+    """Нет ответа от API."""

@@ -87,11 +87,10 @@ def parse_status(homework):
 
 def check_tokens():
     """Функция проверки обязательных переменных окружения."""
-    if (PRACTICUM_TOKEN is None or TELEGRAM_TOKEN
-            is None or TELEGRAM_CHAT_ID is None):
-        return False
-    else:
+    if all([PRACTICUM_TOKEN, TELEGRAM_TOKEN, TELEGRAM_CHAT_ID]):
         return True
+    else:
+        return False
 
 
 def main():
@@ -99,7 +98,6 @@ def main():
     if check_tokens() is False:
         logger.critical('Отсутствие обязательных переменных окружения во '
                         'время запуска бота')
-        time.sleep(RETRY_TIME)
     else:
         bot = telegram.Bot(token=TELEGRAM_TOKEN)
         current_timestamp = int(time.time())
@@ -114,7 +112,6 @@ def main():
                     logger.info(f'Сообщение {message} успешно отправлено')
                 current_timestamp = current_timestamp = int(
                     response['current_date'])
-                time.sleep(RETRY_TIME)
 
             except Exception as error:
                 message = f'Сбой в работе программы: {error}'

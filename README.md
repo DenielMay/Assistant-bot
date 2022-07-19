@@ -5,7 +5,9 @@
 
 
 ### _Технологии_
- - _[Bot API](https://docs.python-telegram-bot.org/en/v20.0a2/)_
+ - _[Bot API](https://core.telegram.org/bots/api)_
+ - _[dotenv]( https://pypi.org/project/python-dotenv/)_
+
 
 ### _Как запустить проект_:
 
